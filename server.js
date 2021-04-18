@@ -1,6 +1,8 @@
 const express = require('express');
 const app = express();
 
+require('./db.js');
+
 const PORT = 5000;
 
 app.get('/', (req, res) => {
