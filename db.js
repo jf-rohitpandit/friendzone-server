@@ -1,11 +1,14 @@
 const mongoose = require('mongoose');
 
-mongoose.connect('', {
-	useNewUrlParser: true,
-	useUnifiedTopology: true,
-});
+mongoose.connect(
+	'mongodb+srv://user:user@cluster0.ef7w3.mongodb.net/myFirstDatabase?retryWrites=true&w=majority',
+	{
+		useNewUrlParser: true,
+		useUnifiedTopology: true,
+	}
+);
 
-const db = mongoose.connnection;
+const db = mongoose.connection;
 
 db.on('error', () => {
 	console.log('mongoose connection error');
