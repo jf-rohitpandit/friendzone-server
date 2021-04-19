@@ -1,6 +1,7 @@
 const express = require('express');
 const { body, validationResult } = require('express-validator');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 const User = require('../models/userModel');
 
 const router = express.Router();
@@ -35,7 +36,10 @@ router.post(
 
 			const newUser = new User({ email, password: hash });
 			await newUser.save();
-			res.status(201).json({ user: newUser });
+
+			//token
+			const token = jwt.sign({ _id: newUser._id }, 'test');
+			res.status(201).json({ token });
 			return;
 		} catch (error) {
 			res.status(500).json({ message: error.message });
@@ -77,7 +81,9 @@ router.post(
 				return;
 			}
 
-			res.status(200).json({ user: isUser });
+			//token
+			const token = jwt.sign({ _id: isUser._id }, 'test');
+			res.status(201).json({ token });
 		} catch (error) {
 			res.status(500).json({ message: error.message });
 		}
