@@ -1,5 +1,6 @@
 const express = require('express');
 const { body, validationResult } = require('express-validator');
+const bcrypt = require('bcrypt');
 const User = require('../models/userModel');
 
 const router = express.Router();
@@ -29,7 +30,10 @@ router.post(
 				return;
 			}
 
-			const newUser = new User({ email, password });
+			//hash
+			const hash = bcrypt.hashSync(password, 10);
+
+			const newUser = new User({ email, password: hash });
 			await newUser.save();
 			res.status(201).json({ user: newUser });
 			return;
@@ -66,7 +70,7 @@ router.post(
 			console.log(isUser);
 			console.log(password);
 
-			if (isUser.password !== password) {
+			if (!bcrypt.compareSync(password, isUser.password)) {
 				console.log('password not match');
 				console.log(isUser.password);
 				res.status(400).json({ message: 'Email or password is invalid!' });
