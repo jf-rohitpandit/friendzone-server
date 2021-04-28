@@ -12,7 +12,7 @@ router.get('/', (req, res) => {
 
 	res
 		.status(200)
-		.json({ data: { image, name, age, gender, aboutMe, country } });
+		.json({ userInfo: { image, name, age, gender, aboutMe, country } });
 });
 
 module.exports = router;
