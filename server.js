@@ -3,6 +3,8 @@ const morgan = require('morgan');
 const cors = require('cors');
 const auth = require('./routes/auth');
 const home = require('./routes/home');
+const profile = require('./routes/profile');
+const verifyUser = require('./middlewares/authMiddleware');
 
 const app = express();
 app.use(morgan('dev'));
@@ -19,7 +21,8 @@ app.get('/', (req, res) => {
 });
 
 app.use('/auth', auth);
-app.use('/home', home);
+app.use('/home', verifyUser, home);
+app.use('/profile', verifyUser, profile);
 
 app.get('*', (req, res) => {
 	res.status(404).send('Page not Found');
