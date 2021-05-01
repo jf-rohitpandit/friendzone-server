@@ -17,13 +17,13 @@ router.post(
 			const errors = validationResult(req);
 
 			if (!errors.isEmpty()) {
-				console.log(errors);
+				// console.log(errors);
 				res.status(400).json({ error: errors.array() });
 				return;
 			}
 
 			const isUser = await User.findOne({ email });
-			console.log(isUser);
+			// console.log(isUser);
 			if (isUser !== null) {
 				res
 					.status(400)
