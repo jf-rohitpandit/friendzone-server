@@ -32,6 +32,9 @@ const userSchema = new mongoose.Schema({
 	avtarUrl: {
 		type: String,
 	},
+	friend: {
+		type: [mongoose.Types.ObjectId],
+	},
 });
 
 const User = mongoose.model('User', userSchema);

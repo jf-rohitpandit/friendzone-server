@@ -4,6 +4,7 @@ const cors = require('cors');
 const auth = require('./routes/auth');
 const home = require('./routes/home');
 const profile = require('./routes/profile');
+const friend = require('./routes/friend');
 const verifyUser = require('./middlewares/authMiddleware');
 
 const app = express();
@@ -23,6 +24,7 @@ app.get('/', (req, res) => {
 app.use('/auth', auth);
 app.use('/home', verifyUser, home);
 app.use('/profile', verifyUser, profile);
+app.use('/friend', verifyUser, friend);
 
 app.get('*', (req, res) => {
 	res.status(404).send('Page not Found');
