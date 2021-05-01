@@ -1,9 +1,6 @@
 const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema({
-	name: {
-		type: String,
-	},
 	email: {
 		type: String,
 		required: true,
@@ -14,6 +11,12 @@ const userSchema = new mongoose.Schema({
 		required: true,
 		minLength: 6,
 	},
+	gender: {
+		type: String,
+	},
+	name: {
+		type: String,
+	},
 	dob: {
 		type: Date,
 	},
@@ -23,7 +26,7 @@ const userSchema = new mongoose.Schema({
 	state: {
 		type: String,
 	},
-	info: {
+	aboutMe: {
 		type: String,
 	},
 	avtarUrl: {
