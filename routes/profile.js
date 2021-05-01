@@ -30,8 +30,9 @@ router.get('/', async (req, res) => {
 		//avtar sending logic
 		if (user.avtarUrl) {
 			const avtar = await readFileAsync(user.avtarUrl);
-			console.log(avtar);
-			userInfo[avtar] = avtar;
+			// const stream = fs.createReadStream(user.avtarUrl);
+			// console.log(avtar);
+			userInfo['avtar'] = avtar;
 		}
 
 		console.log('----------------------GET');
@@ -81,6 +82,7 @@ router.put('/', upload.single('avtar'), async (req, res) => {
 			user.aboutMe = aboutMe;
 		}
 		if (avtar) {
+			console.log('avtar found', avtar);
 			user.avtarUrl = `./upload/${id}/1.${avtar.originalname.split('.')[1]}`;
 		}
 
