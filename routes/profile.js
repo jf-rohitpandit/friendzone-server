@@ -1,4 +1,5 @@
 const express = require('express');
+const sharp = require('sharp');
 const router = express.Router();
 const User = require('../models/userModel');
 const multer = require('multer');
@@ -57,6 +58,13 @@ router.put('/', upload.single('avtar'), async (req, res) => {
 			await mkdirAsync(saveDir, { recursive: true });
 			const fileName = `${saveDir}/1.${avtar.originalname.split('.')[1]}`;
 			await writeFileAsync(fileName, avtar.buffer);
+
+			//saving a compressed version of the avtar for calling at as small images
+			const compressedDir = `compress/${id}`;
+			await mkdirAsync(compressedDir, { recursive: true });
+			const compressedFile = `${compressedDir}/1.jpg`;
+
+			sharp(fileName).resize(50, 50).resize(50, 50).toFile(compressedFile);
 		}
 
 		const user = await User.findOne({ _id: id }).select('-password');

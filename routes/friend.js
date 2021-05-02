@@ -1,6 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const User = require('../models/userModel');
+const fs = require('fs');
+const util = require('util');
+
+const readFileAsync = util.promisify(fs.readFile);
 
 router.put('/', async (req, res) => {
 	try {
@@ -35,9 +39,11 @@ router.get('/', async (req, res) => {
 
 		for (let i = 0; i < user.friend.length; i++) {
 			const tempUser = await User.findOne({ _id: user.friend[i] });
+			const photo = await readFileAsync(`compress/${tempUser.id}/1.jpg`);
 			let temp = {
 				name: tempUser.name,
 				id: tempUser.id,
+				photo: photo,
 			};
 
 			list.push(temp);
