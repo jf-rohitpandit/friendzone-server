@@ -9,10 +9,11 @@ router.get('/', (req, res) => {
 	const age = Math.floor(Math.random() * 20 + 18);
 	const aboutMe = faker.lorem.lines();
 	const gender = faker.name.gender();
+	const id = '6086d8c4921cae1403309228';
 
 	res
 		.status(200)
-		.json({ userInfo: { image, name, age, gender, aboutMe, country } });
+		.json({ userInfo: { image, name, age, gender, aboutMe, country, id } });
 });
 
 module.exports = router;
