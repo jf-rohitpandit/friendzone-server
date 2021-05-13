@@ -33,7 +33,7 @@ router.post(
 
 			//hash
 			const hash = bcrypt.hashSync(password, 10);
-			const count = await User.countDocuments();
+			let count = await User.countDocuments();
 			if (!count) {
 				count = 0;
 			}
