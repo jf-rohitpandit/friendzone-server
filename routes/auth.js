@@ -33,9 +33,14 @@ router.post(
 
 			//hash
 			const hash = bcrypt.hashSync(password, 10);
+			const count = await User.countDocuments();
+			if (!count) {
+				count = 0;
+			}
 
-			const newUser = new User({ email, password: hash });
+			const newUser = new User({ email, password: hash, count: count + 1 });
 			await newUser.save();
+			console.log('signup', newUser);
 
 			//token
 			const token = jwt.sign({ _id: newUser._id }, 'test');

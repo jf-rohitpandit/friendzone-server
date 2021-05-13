@@ -11,6 +11,10 @@ const userSchema = new mongoose.Schema({
 		required: true,
 		minLength: 6,
 	},
+	count: {
+		type: Number,
+		required: true,
+	},
 	gender: {
 		type: String,
 	},
@@ -34,9 +38,6 @@ const userSchema = new mongoose.Schema({
 	},
 	friend: {
 		type: [mongoose.Types.ObjectId],
-	},
-	count: {
-		type: Number,
 	},
 });
 

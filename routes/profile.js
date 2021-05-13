@@ -23,9 +23,9 @@ router.get('/', async (req, res) => {
 		const id = req.userId;
 
 		const user = await User.findOne({ _id: id }).select('-password');
-		const { name, gender, aboutMe, country, dob } = user;
+		const { name, gender, aboutMe, country, dob, count } = user;
 
-		const userInfo = { name, gender, aboutMe, country, dob };
+		const userInfo = { name, gender, aboutMe, country, dob, count };
 		console.log(userInfo);
 
 		//avtar sending logic
