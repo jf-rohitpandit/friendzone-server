@@ -6,19 +6,18 @@ const auth = require('./routes/auth');
 const home = require('./routes/home');
 const profile = require('./routes/profile');
 const friend = require('./routes/friend');
-// const chat = require('./routes/chat');
 const verifyUser = require('./middlewares/authMiddleware');
 const http = require('http').createServer(app);
 const jwt = require('jsonwebtoken');
 const User = require('./models/userModel');
 const io = require('socket.io')(http, {
 	cors: {
-		origin: 'http://localhost:3000',
+		origin: 'https://upbeat-jepsen-ece2e7.netlify.app',
 	},
 });
 require('./db.js');
 
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;
 
 app.use(morgan('dev'));
 app.use(cors());
