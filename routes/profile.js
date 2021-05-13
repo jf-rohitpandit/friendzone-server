@@ -95,11 +95,11 @@ router.put('/', upload.single('avtar'), async (req, res) => {
 		}
 
 		await user.save();
-		console.log(user);
+		console.log('user', user);
 
 		console.log('*****************************PUT');
 
-		res.status(200).json({ message: 'Data updated successfully!' });
+		res.status(200).json({ user: user });
 	} catch (error) {
 		console.log(error);
 		res.status(500).json({ error: error });

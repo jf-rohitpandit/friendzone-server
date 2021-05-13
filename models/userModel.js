@@ -35,6 +35,9 @@ const userSchema = new mongoose.Schema({
 	friend: {
 		type: [mongoose.Types.ObjectId],
 	},
+	count: {
+		type: Number,
+	},
 });
 
 const User = mongoose.model('User', userSchema);
