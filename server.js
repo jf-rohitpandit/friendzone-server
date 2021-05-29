@@ -10,11 +10,11 @@ const verifyUser = require('./middlewares/authMiddleware');
 const http = require('http').createServer(app);
 const jwt = require('jsonwebtoken');
 const User = require('./models/userModel');
-const io = require('socket.io')(http, {
-	cors: {
-		origin: 'https://upbeat-jepsen-ece2e7.netlify.app',
-	},
-});
+// const io = require('socket.io')(http, {
+// 	cors: {
+// 		origin: 'https://upbeat-jepsen-ece2e7.netlify.app',
+// 	},
+// });
 require('./db.js');
 
 const PORT = process.env.PORT || 5000;

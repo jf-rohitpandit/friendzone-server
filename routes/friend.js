@@ -30,10 +30,19 @@ router.put('/', async (req, res) => {
 
 router.get('/', async (req, res) => {
 	try {
+		if (!req.userId) {
+			res.status(401).json({ message: 'Unauthorized user' });
+			return;
+		}
 		const id = req.userId;
 		const user = await User.findOne({ _id: id });
 
 		console.log(user.friend);
+
+		if (!user.friend) {
+			res.status(200).json({ list: [] });
+			return;
+		}
 
 		const list = [];
 
