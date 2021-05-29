@@ -33,8 +33,9 @@ const userSchema = new mongoose.Schema({
 	aboutMe: {
 		type: String,
 	},
-	avtarUrl: {
-		type: String,
+	avtar: {
+		data: Buffer,
+		contentType: Buffer,
 	},
 	friend: {
 		type: [mongoose.Types.ObjectId],

@@ -25,16 +25,16 @@ router.get('/', async (req, res) => {
 		const user = await User.findOne({ _id: id }).select('-password');
 		const { name, gender, aboutMe, country, dob, count } = user;
 
-		const userInfo = { name, gender, aboutMe, country, dob, count };
+		const userInfo = { name, gender, aboutMe, country, dob, count, avtar };
 		console.log(userInfo);
 
 		//avtar sending logic
-		if (user.avtarUrl) {
-			const avtar = await readFileAsync(user.avtarUrl);
-			// const stream = fs.createReadStream(user.avtarUrl);
-			// console.log(avtar);
-			userInfo['avtar'] = avtar;
-		}
+		// if (user.avtarUrl) {
+		// 	const avtar = await readFileAsync(user.avtarUrl);
+		// 	// const stream = fs.createReadStream(user.avtarUrl);
+		// 	// console.log(avtar);
+		// 	userInfo['avtar'] = avtar;
+		// }
 
 		console.log('----------------------GET');
 		res.status(200).json({ user: userInfo });
@@ -53,19 +53,21 @@ router.put('/', upload.single('avtar'), async (req, res) => {
 		// console.log(avtar);
 
 		//saving the file in the server
-		if (avtar) {
-			const saveDir = `./upload/${id}`;
-			await mkdirAsync(saveDir, { recursive: true });
-			const fileName = `${saveDir}/1.${avtar.originalname.split('.')[1]}`;
-			await writeFileAsync(fileName, avtar.buffer);
+		// if (avtar) {
+		// 	const saveDir = `./upload/${id}`;
+		// 	await mkdirAsync(saveDir, { recursive: true });
+		// 	const fileName = `${saveDir}/1.${avtar.originalname.split('.')[1]}`;
+		// 	await writeFileAsync(fileName, avtar.buffer);
 
-			//saving a compressed version of the avtar for calling at as small images
-			const compressedDir = `compress/${id}`;
-			await mkdirAsync(compressedDir, { recursive: true });
-			const compressedFile = `${compressedDir}/1.jpg`;
+		// 	//saving a compressed version of the avtar for calling at as small images
+		// 	const compressedDir = `compress/${id}`;
+		// 	await mkdirAsync(compressedDir, { recursive: true });
+		// 	const compressedFile = `${compressedDir}/1.jpg`;
 
-			sharp(fileName).resize(50, 50).resize(50, 50).toFile(compressedFile);
-		}
+		// 	sharp(fileName).resize(50, 50).resize(50, 50).toFile(compressedFile);
+		// }
+
+		//SAVING The avtar image in the db
 
 		const user = await User.findOne({ _id: id }).select('-password');
 
@@ -91,7 +93,7 @@ router.put('/', upload.single('avtar'), async (req, res) => {
 		}
 		if (avtar) {
 			console.log('avtar found', avtar);
-			user.avtarUrl = `./upload/${id}/1.${avtar.originalname.split('.')[1]}`;
+			user.avtar = `./upload/${id}/1.${avtar.originalname.split('.')[1]}`;
 		}
 
 		await user.save();

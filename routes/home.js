@@ -32,11 +32,11 @@ router.get('/', async (req, res) => {
 
 		let photo;
 		if (user) {
-			if (user.avtarUrl) {
-				photo = await readFileAsync(user.avtarUrl);
-			}
+			// if (user.avtarU) {
+			// 	photo = await readFileAsync(user.avtarUrl);
+			// }
 
-			const image = photo || null;
+			const image = user.avtar || '';
 			const name = user.name || '';
 			const country = user.country || '';
 			const age = getAge(user.dob);

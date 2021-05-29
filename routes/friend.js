@@ -43,12 +43,13 @@ router.get('/', async (req, res) => {
 			let temp = {
 				name: tempUser.name,
 				id: tempUser.id,
+				photo: tempUser.avtar,
 			};
-			if (tempUser.avtarUrl) {
-				const photo = await readFileAsync(`compress/${tempUser.id}/1.jpg`);
+			// if (tempUser.avtarUrl) {
+			// 	const photo = await readFileAsync(`compress/${tempUser.id}/1.jpg`);
 
-				temp['photo'] = photo;
-			}
+			// 	temp['photo'] = photo;
+			// }
 
 			list.push(temp);
 		}
@@ -68,12 +69,13 @@ router.get('/:id', async (req, res) => {
 		let temp = {
 			name: tempUser.name,
 			id: tempUser.id,
+			photo: tempUser.avtar,
 		};
-		if (tempUser.avtarUrl) {
-			const photo = await readFileAsync(`compress/${tempUser.id}/1.jpg`);
+		// if (tempUser.avtar) {
+		// 	const photo = await readFileAsync(`compress/${tempUser.id}/1.jpg`);
 
-			temp['photo'] = photo;
-		}
+		// 	temp['photo'] = photo;
+		// }
 
 		res.status(200).json({ user: temp });
 	} catch (error) {
