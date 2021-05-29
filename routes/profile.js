@@ -12,9 +12,9 @@ const writeFileAsync = util.promisify(fs.writeFile);
 const readFileAsync = util.promisify(fs.readFile);
 
 //multer
-const storage = multer.memoryStorage();
+// const storage = multer.memoryStorag;
 const upload = multer({
-	storage: storage,
+	dest: './uploads',
 });
 
 router.get('/', async (req, res) => {
@@ -93,9 +93,17 @@ router.put('/', upload.single('avtar'), async (req, res) => {
 		}
 		if (avtar) {
 			console.log('avtar found', avtar);
-			fs.createReadStream(
-				`./upload/${id}/1.${avtar.originalname.split('.')[1]}`
-			).pipe(user.avtar);
+			let data = '';
+			// user.avtar.data = await readFileAsync(`./uploads/${avtar.filename}`);
+			const readStream = fs.createReadStream(`./uploads/${avtar.filename}`);
+
+			readStream
+				.on('data', (chunk) => {
+					data += chunk;
+				})
+				.on('end', () => {
+					user.avtar.data = Buffer.from(data);
+				});
 		}
 
 		await user.save();

@@ -89,6 +89,8 @@ router.post(
 
 			//token
 			const token = jwt.sign({ _id: isUser._id }, 'test');
+			const isValid = jwt.verify(token, 'test');
+			console.log('isValid', isValid);
 			res.status(201).json({ token });
 		} catch (error) {
 			res.status(500).json({ message: error.message });

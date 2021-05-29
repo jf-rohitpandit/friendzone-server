@@ -20,6 +20,11 @@ function getAge(dateString) {
 
 router.get('/', async (req, res) => {
 	try {
+		if (!req.userId) {
+			res.status(401).json({ messagse: 'Unauthorised user' });
+			return;
+		}
+
 		const count = await User.countDocuments();
 
 		if (count === 1) {
