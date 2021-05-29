@@ -24,6 +24,7 @@ router.get('/', async (req, res) => {
 
 		if (count === 1) {
 			res.status(200).json({ userInfo: null });
+			return;
 		}
 		const myCount = await User.findOne({ _id: req.userId }).select('count');
 		let randomUser = 0;

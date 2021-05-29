@@ -23,7 +23,7 @@ router.get('/', async (req, res) => {
 		const id = req.userId;
 
 		const user = await User.findOne({ _id: id }).select('-password');
-		const { name, gender, aboutMe, country, dob, count } = user;
+		const { name, gender, aboutMe, country, dob, count, avtar } = user;
 
 		const userInfo = { name, gender, aboutMe, country, dob, count, avtar };
 		console.log(userInfo);
