@@ -25,43 +25,43 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 //chat logic
-io.use((socket, next) => {
-	try {
-		if (socket.handshake.query && socket.handshake.query.token) {
-			const payload = jwt.verify(socket.handshake.query.token, 'test');
-			console.log(payload._id);
-			socket.id = payload._id;
-			next();
-		}
-	} catch (error) {
-		console.log(error);
-		next();
-	}
-});
+// io.use((socket, next) => {
+// 	try {
+// 		if (socket.handshake.query && socket.handshake.query.token) {
+// 			const payload = jwt.verify(socket.handshake.query.token, 'test');
+// 			console.log(payload._id);
+// 			socket.id = payload._id;
+// 			next();
+// 		}
+// 	} catch (error) {
+// 		console.log(error);
+// 		next();
+// 	}
+// });
 
-io.on('connection', (socket) => {
-	console.log(socket.id);
-	socket.join(socket.id);
+// io.on('connection', (socket) => {
+// 	console.log(socket.id);
+// 	socket.join(socket.id);
 
-	socket.on('send-message', async ({ sendTo, text }) => {
-		console.log(text);
-		console.log(sendTo);
-		socket.broadcast
-			.to(sendTo)
-			.emit('recieve-message', { sender: socket.id, text });
-		const user = await User.findOne({ _id: sendTo });
-		const isFrined = user.friend.find((f) => f == socket.id);
+// 	socket.on('send-message', async ({ sendTo, text }) => {
+// 		console.log(text);
+// 		console.log(sendTo);
+// 		socket.broadcast
+// 			.to(sendTo)
+// 			.emit('recieve-message', { sender: socket.id, text });
+// 		const user = await User.findOne({ _id: sendTo });
+// 		const isFrined = user.friend.find((f) => f == socket.id);
 
-		if (!isFrined) {
-			user.friend.unshift(socket.id);
-			await user.save();
-		}
-	});
+// 		if (!isFrined) {
+// 			user.friend.unshift(socket.id);
+// 			await user.save();
+// 		}
+// 	});
 
-	socket.on('disconnect', () => {
-		console.log('disconnected');
-	});
-});
+// 	socket.on('disconnect', () => {
+// 		console.log('disconnected');
+// 	});
+// });
 
 app.use('/auth', auth);
 app.use('/home', verifyUser, home);

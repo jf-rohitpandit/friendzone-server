@@ -21,6 +21,10 @@ function getAge(dateString) {
 router.get('/', async (req, res) => {
 	try {
 		const count = await User.countDocuments();
+
+		if (count === 1) {
+			res.status(200).json({ userInfo: null });
+		}
 		const myCount = await User.findOne({ _id: req.userId }).select('count');
 		let randomUser = 0;
 		while (randomUser === 0 || myCount === randomUser) {
