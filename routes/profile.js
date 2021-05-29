@@ -93,7 +93,9 @@ router.put('/', upload.single('avtar'), async (req, res) => {
 		}
 		if (avtar) {
 			console.log('avtar found', avtar);
-			user.avtar = `./upload/${id}/1.${avtar.originalname.split('.')[1]}`;
+			fs.createReadStream(
+				`./upload/${id}/1.${avtar.originalname.split('.')[1]}`
+			).pipe(user.avtar);
 		}
 
 		await user.save();
