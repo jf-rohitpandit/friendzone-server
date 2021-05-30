@@ -16,7 +16,9 @@ router.put('/', async (req, res) => {
 		if (user.friend.length === 0) {
 			user.friend.push(friendId);
 		} else {
-			user.friend.unshift(friendId);
+			if (!user.friend.includes(friendId)) {
+				user.friend.unshift(friendId);
+			}
 		}
 
 		await user.save();
@@ -34,6 +36,8 @@ router.get('/', async (req, res) => {
 			res.status(401).json({ message: 'Unauthorized user' });
 			return;
 		}
+
+		console.log(req.userId);
 		const id = req.userId;
 		const user = await User.findOne({ _id: id });
 

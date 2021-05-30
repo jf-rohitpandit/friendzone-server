@@ -19,6 +19,12 @@ const upload = multer({
 
 router.get('/', async (req, res) => {
 	try {
+		if (req.userId) {
+			res.status(401).json({ message: 'Unauthorized user' });
+			return;
+		}
+		console.log(req.userId);
+
 		console.log('GET----------------------');
 		const id = req.userId;
 
