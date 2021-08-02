@@ -63,16 +63,9 @@ router.put('/', upload.single('avtar'), async (req, res) => {
         const id = req.userId;
         const { name, gender, dob, country, aboutMe } = req.body;
         const avtar = req.file;
+        console.log(avtar);
 
         const user = await User.findOne({ _id: id }).select('-password');
-        if (user.avtar && user.avtar.public_id) {
-            cloudinary.uploader.destroy(user.avtar.public_id, (err, res) => {
-                if (err) {
-                    console.log(err);
-                }
-                console.log('res');
-            });
-        }
 
         if (!user) {
             res.status(400).json({ message: 'User not found!' });
@@ -107,6 +100,18 @@ router.put('/', upload.single('avtar'), async (req, res) => {
             if (err) {
                 res.status(500).json({ error: err });
                 return;
+            }
+            // remove photo if it exist
+            if (user.avtar && user.avtar.public_id) {
+                cloudinary.uploader.destroy(
+                    user.avtar.public_id,
+                    (err, res) => {
+                        if (err) {
+                            console.log(err);
+                        }
+                        console.log('res');
+                    }
+                );
             }
             console.log(result);
             user.avtar = { avtarUrl: result.url, public_id: result.public_id };
