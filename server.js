@@ -2,6 +2,8 @@ const express = require('express');
 const app = express();
 const morgan = require('morgan');
 const cors = require('cors');
+const cloudinary = require('cloudinary').v2;
+
 const auth = require('./routes/auth');
 const home = require('./routes/home');
 const profile = require('./routes/profile');
@@ -69,13 +71,13 @@ app.use('/profile', verifyUser, profile);
 app.use('/friend', verifyUser, friend);
 
 app.get('/', (req, res) => {
-	res.json({ msg: 'hi' });
+    res.json({ msg: 'hi' });
 });
 
 app.get('*', (req, res) => {
-	res.status(404).send('Page not Found');
+    res.status(404).send('Page not Found');
 });
 
 http.listen(PORT, () => {
-	console.log(`server live at port: ${PORT}`);
+    console.log(`server live at port: ${PORT}`);
 });
