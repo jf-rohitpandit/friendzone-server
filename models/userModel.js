@@ -33,7 +33,10 @@ const userSchema = new mongoose.Schema({
     aboutMe: {
         type: String,
     },
-    avtar: String,
+    avtar: {
+        avtarUrl: String,
+        public_id: String,
+    },
     friend: {
         type: [mongoose.Types.ObjectId],
         ref: 'User',

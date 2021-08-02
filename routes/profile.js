@@ -63,26 +63,16 @@ router.put('/', upload.single('avtar'), async (req, res) => {
         const id = req.userId;
         const { name, gender, dob, country, aboutMe } = req.body;
         const avtar = req.file;
-        // console.log(avtar);
-
-        //saving the file in the server
-        // if (avtar) {
-        // 	const saveDir = `./upload/${id}`;
-        // 	await mkdirAsync(saveDir, { recursive: true });
-        // 	const fileName = `${saveDir}/1.${avtar.originalname.split('.')[1]}`;
-        // 	await writeFileAsync(fileName, avtar.buffer);
-
-        // 	//saving a compressed version of the avtar for calling at as small images
-        // 	const compressedDir = `compress/${id}`;
-        // 	await mkdirAsync(compressedDir, { recursive: true });
-        // 	const compressedFile = `${compressedDir}/1.jpg`;
-
-        // 	sharp(fileName).resize(50, 50).resize(50, 50).toFile(compressedFile);
-        // }
-
-        //SAVING The avtar image in the db
 
         const user = await User.findOne({ _id: id }).select('-password');
+        if (user.avtar && user.avtar.public_id) {
+            cloudinary.uploader.destroy(user.avtar.public_id, (err, res) => {
+                if (err) {
+                    console.log(err);
+                }
+                console.log('res');
+            });
+        }
 
         if (!user) {
             res.status(400).json({ message: 'User not found!' });
@@ -118,11 +108,15 @@ router.put('/', upload.single('avtar'), async (req, res) => {
                 res.status(500).json({ error: err });
                 return;
             }
-            user.avtar = result.url;
+            console.log(result);
+            user.avtar = { avtarUrl: result.url, public_id: result.public_id };
             await user.save();
 
             res.status(200).json({ user: user });
-            return;
+
+            fs.unlink(avtar.path, (err) => {
+                console.log(err);
+            });
         });
     } catch (error) {
         console.log(error);
